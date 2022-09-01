@@ -1,2 +1,2 @@
 #!/bin/bash
-sudo chmod u+x,g+x vincent staff
+chown vincent:staff *
