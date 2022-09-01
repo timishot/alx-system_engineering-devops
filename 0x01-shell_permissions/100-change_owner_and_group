@@ -1,2 +1,2 @@
 #!/bin/bash
-chmod u+x,g+x vincent staff
+sudo chmod u+x,g+x vincent staff
