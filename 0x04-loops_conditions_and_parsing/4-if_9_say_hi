@@ -2,12 +2,12 @@
 # Thescript is used to print "Best school" and "if" insidethe loop
 i=1
 
-while [ $i -le 10 ]; do
+while [ $i -lt 10 ]; do
+	((i++))
 	if [ $i -eq 9 ]; then
+		echo "Best School"
 		echo "Hi"
-		i=$((i+1))
-		continue
+	else
+		echo "Best School"
 	fi
-	echo "Best School"
-	i=$((i + 1))
 done
