@@ -1,11 +1,13 @@
 #!/usr/bin/env bash
 # Thescript is used to print "Best school" and "if" insidethe loop
-i=0
+i=1
 
-while [ i -le 10]; do
-	if [ $i -eq 9 ]
+while [ $i -le 10 ]; do
+	if [ $i -eq 9 ]; then
 		echo "Hi"
+		i=$((i+1))
+		continue
 	fi
-	echo "Best Shool"
+	echo "Best School"
 	i=$((i + 1))
 done
