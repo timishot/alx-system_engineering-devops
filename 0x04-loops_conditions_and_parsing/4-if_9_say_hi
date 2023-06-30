@@ -1,14 +1,15 @@
 #!/usr/bin/env bash
 #Thescript is used to print "Best school" and "if" insidethe loop
+# on the 9th itertion, display "Hi" before "Best School".
 
-i=1
+i=0
 
-while [ $i -lt 10 ]; do
-	((i++))
+while [ $i -le 10 ]; do
 	if [ $i -eq 9 ]; then
-		echo "Best School"
-		echo "Hi"
-	else
-		echo "Best School"
+		echo "HI"
+		((i++))
+		continue
 	fi
+	echo "Best School"
+	((i++))
 done
