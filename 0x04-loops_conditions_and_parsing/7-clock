@@ -1,0 +1,16 @@
+#!/usr/bin/env bash
+# The script print the time
+
+hour=0
+minutes=1
+
+while [ "$hour" -lt 12 ]; do
+	echo "Hour: $hour"
+	while [ "$minutes" -le 59 ]; do
+		echo "$minutes"
+		((minutes++))
+
+	done
+	((hour++))
+	minutes=1
+done
