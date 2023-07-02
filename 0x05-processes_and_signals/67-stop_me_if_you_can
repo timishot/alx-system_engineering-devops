@@ -1,0 +1,5 @@
+#!/bin/bash
+#more on script
+
+pkill -f "7-highlander"
+
