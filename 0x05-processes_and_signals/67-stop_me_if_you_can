@@ -1,4 +1,4 @@
-#!/bin/bash
+#!/usr/bin/env bash
 #more on script
 
 pkill -f "7-highlander"
