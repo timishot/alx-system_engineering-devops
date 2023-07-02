@@ -2,6 +2,6 @@
 # Telling a story
 
 while IFS=':' read -r USERNAME PASSWORD UI GID UII home shell; do
-	echo "The user $USERNAME is part of the $GID gang, lives in $home and rides $shell. $UI place is protected by the passcode $PASSWORD, more info about the user here: $UII"
+	echo "The user $USERNAME is part of the $GID gang, lives in $home and rides $shell. $UI's place is protected by the passcode $PASSWORD, more info about the user here: $UII"
 done < /etc/passwd
 
