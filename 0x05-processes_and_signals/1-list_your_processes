@@ -1,7 +1,4 @@
 #!/usr/bin/env bash
 # Bsh script that displays the current running processes
 
-echo "USER       PID %CPU %MEM   VSZ     RSS TTY      STAT START  TIME COMMAND"
-
-#Get a list of all processes
-ps -ef --forest --no-headers
+ps -auxf
