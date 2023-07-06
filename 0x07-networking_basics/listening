@@ -1,0 +1,16 @@
+#!/bin/bash
+
+# Get the listening ports using netstat and filter the output
+listening_ports=$(netstat -tlnp | grep 'LISTEN')
+
+# Iterate over each line of the listening ports output
+while read -r line; do
+    # Extract the port number, PID, and program name using awk
+    port=$(echo "$line" | awk '{print $4}' | awk -F ':' '{print $2}')
+    pid=$(echo "$line" | awk '{print $7}' | awk -F '/' '{print $1}')
+    program=$(echo "$line" | awk '{print $7}' | awk -F '/' '{print $2}')
+
+    # Display the port, PID, and program information
+    echo "Port: $port, PID: $pid, Program: $program"
+done <<< "$listening_ports"
+
