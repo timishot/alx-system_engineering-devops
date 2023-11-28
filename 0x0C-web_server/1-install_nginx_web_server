@@ -1,0 +1,16 @@
+#!/usr/bin/env bash
+# installs nginx and configures it on a remote server
+
+sudo apt-get update -y
+sudo apt-get install -y nginx
+
+#Restrt nginx (without using systemctl)
+sudo service nginx restart
+
+# Create a default HTML page with the required content
+echo "Hello world!" | sudo tee /var/www/html/index.ngnix-debian.html > /dev/null
+# Display success message
+echo "Nginx has been installed and configured successfully" 
+
+# Display success message
+echo "Nginx has been installed and configured successfully."
