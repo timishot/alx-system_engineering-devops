@@ -1,43 +1,28 @@
 #!/usr/bin/env bash
+# Installs, configuration and starts the server
+sudo apt-get update
+sudo apt-get -y install nginx
+sudo ufw allow 'Nginx HTTP'
+mkdir -p /var/www/html/
+sudo chmod -R 755 /var/www
+echo 'Hello World!' > /var/www/html/index.html
+SERVER_CONFIG=\
+	"server {
+	listen 80 default_server;
+	listen [::]:80 default_server;
+	root /var/www/html;
+	index index.html index.htm index.nginx-debian.html;
+	server_name _;
+	return 301 $scheme://youtube.com/watch?v=QH2-TGUlwu4$request_uri;
+	location / {
+		try_files \$uri \$uri/ =404;
+	}
+}"
 
-# Install Nginx if not already installed
-if [ ! -x "$(command -v nginx)" ]; then
-    sudo apt-get -y update
-    sudo apt-get -y install nginx
+bash -c "echo -e '$SERVER_CONFIG'" > /etc/nginx/sites-enabled/default
+
+if [ "$(pgrep -c nginx)" -le 0 ]; then
+	service nginx start
+else
+	service nginx restart
 fi
-
-# Create a simple HTML file for redirection
-echo "<html><head><meta http-equiv='refresh' content='0;url=https://www.youtube.com/watch?v=QH2-TGUlwu4'></head></html>" | sudo tee /var/www/html/redirect_me/index.html > /dev/null
-
-# Configure Nginx for redirection
-sudo bash -c 'cat > /etc/nginx/sites-available/redirect_me' <<EOL
-server {
-    listen 80;
-    server_name _;
-
-    location /redirect_me {
-        return 301 https://www.youtube.com/watch?v=QH2-TGUlwu4;
-    }
-
-    error_page 404 /404.html;
-    location = /404.html {
-        root /usr/share/nginx/html;
-        internal;
-    }
-
-    error_page 500 502 503 504 /50x.html;
-    location = /50x.html {
-        root /usr/share/nginx/html;
-        internal;
-    }
-}
-EOL
-
-# Create a symbolic link to enable the site
-sudo ln -s /etc/nginx/sites-available/redirect_me /etc/nginx/sites-enabled/
-
-# Remove the default Nginx configuration
-sudo rm -f /etc/nginx/sites-enabled/default
-
-# Reload Nginx to apply changes
-sudo service nginx reload
