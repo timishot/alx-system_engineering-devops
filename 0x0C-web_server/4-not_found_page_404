@@ -1,0 +1,45 @@
+#!/usr/bin/env bash
+# Install, configures, and starts the server
+
+#update package information
+sudo apt-get update
+
+# Check if NGINX is installed
+if ! command -v nginx &> /dev/null; then
+	# Install Nginx if not installed
+	sudo apt-get -y install nginx
+fi
+
+# Allow Nginx through the firewall
+sudo ufw allow 'Nginx HTTP'
+
+# Create directory and set permissions
+sudo mkdir -p /var/www/html/
+sudo chmod -R 755 /var/www
+
+#Create a simple HTML file
+echo 'Hello World!' | sudo tee /var/www/html/index.html > /dev/null
+echo "Ceci n'est pas une page" | sudo tee /var/www/html/404.html > /dev/null
+
+# NGINX server block configuration
+SERVER_CONFIG=$(cat <<EOF
+server {
+    listen 80 default_server;
+    listen [::]:80 default_server;
+    root /var/www/html;
+    index index.html index.htm index.nginx-debian.html;
+    server_name _;
+    return 301 \$scheme://youtube.com/watch?v=QH2-TGUlwu4\$request_uri;
+    error_page 404 /404.html;
+    location = /404.html{
+       internal;
+    }
+}
+EOF
+)
+
+# Write NGINX server block configuration to default file
+echo "$SERVER_CONFIG" | sudo tee /etc/nginx/sites-enabled/default > /dev/null
+
+# Restart NGINX
+sudo systemctl restart nginx
