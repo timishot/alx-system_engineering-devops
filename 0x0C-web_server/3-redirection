@@ -1,28 +1,44 @@
 #!/usr/bin/env bash
-# Installs, configuration and starts the server
+# Installs, configures, and starts the server
+
+# Update package information
 sudo apt-get update
-sudo apt-get -y install nginx
-sudo ufw allow 'Nginx HTTP'
-mkdir -p /var/www/html/
-sudo chmod -R 755 /var/www
-echo 'Hello World!' > /var/www/html/index.html
-SERVER_CONFIG=\
-	"server {
-	listen 80 default_server;
-	listen [::]:80 default_server;
-	root /var/www/html;
-	index index.html index.htm index.nginx-debian.html;
-	server_name _;
-	return 301 $scheme://youtube.com/watch?v=QH2-TGUlwu4$request_uri;
-	location / {
-		try_files \$uri \$uri/ =404;
-	}
-}"
 
-bash -c "echo -e '$SERVER_CONFIG'" > /etc/nginx/sites-enabled/default
-
-if [ "$(pgrep -c nginx)" -le 0 ]; then
-	service nginx start
-else
-	service nginx restart
+# Check if NGINX is installed
+if ! command -v nginx &> /dev/null; then
+    # Install NGINX if not installed
+    sudo apt-get -y install nginx
 fi
+
+# Allow Nginx through the firewall
+sudo ufw allow 'Nginx HTTP'
+
+# Create directory and set permissions
+sudo mkdir -p /var/www/html/
+sudo chmod -R 755 /var/www
+
+# Create a simple HTML file
+echo 'Hello World!' | sudo tee /var/www/html/index.html > /dev/null
+
+# NGINX server block configuration
+SERVER_CONFIG=$(cat <<EOF
+server {
+    listen 80 default_server;
+    listen [::]:80 default_server;
+    root /var/www/html;
+    index index.html index.htm index.nginx-debian.html;
+    server_name _;
+    return 301 \$scheme://youtube.com/watch?v=QH2-TGUlwu4\$request_uri;
+    location / {
+        try_files \$uri \$uri/ =404;
+    }
+}
+EOF
+)
+
+# Write NGINX server block configuration to default file
+echo "$SERVER_CONFIG" | sudo tee /etc/nginx/sites-enabled/default > /dev/null
+
+# Restart NGINX
+sudo systemctl restart nginx
+
