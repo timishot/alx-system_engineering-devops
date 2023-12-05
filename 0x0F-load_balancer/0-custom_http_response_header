@@ -1,0 +1,27 @@
+#!/usr/bin/env bash
+# Script that configures Nginx with a custom header
+apt-get -y update
+apt-get -y install nginx
+
+# Create directory and set permissions
+sudo mkdir -p /var/www/html/
+sudo chmod -R 755 /var/www
+
+#Create a simple HTML file
+echo 'Hello World!' | sudo tee /var/www/html/index.html > /dev/null
+echo "Ceci n'est pas une page" | sudo tee /var/www/html/404.html > /dev/null
+
+# Define the custom header
+custom_header="add_header X-Served-By \$HOSTNAME;"
+
+# Nginx configuration file path
+nginx_conf="/etc/nginx/nginx.conf"
+
+if ! grep -q "$custom_header" "$nginx_conf"; then
+	# If not, insert the customer header inside the http block
+	sudo sed -i "/^\s*http\s*{/a $custom_header" "$nginx_conf"
+else
+	echo "Custom header already exists in configuration. No change Made."
+fi
+
+service nginx start
