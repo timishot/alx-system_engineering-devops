@@ -1,7 +1,7 @@
 #!/usr/bin/env bash
 # Script that configures Nginx with a custom header
-apt-get -y update
-apt-get -y install nginx
+sudo apt-get -y update
+sudo apt-get -y install nginx
 
 # Create directory and set permissions
 sudo mkdir -p /var/www/html/
@@ -24,4 +24,4 @@ else
 	echo "Custom header already exists in configuration. No change Made."
 fi
 
-service nginx start
+sudo service nginx restart
