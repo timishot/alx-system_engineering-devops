@@ -24,7 +24,7 @@ def export_todo_list_to_json(employee_id):
         todo_data = todo_response.json()
 
         json_data = {str(employee_id): [{"task": task["title"], "completed":
-                     str(task['completed']), "username": user_data['username']}
+                     task['completed'], "username": user_data['username']}
                      for task in todo_data]}
 
         json_file_path = f"{employee_id}.json"
