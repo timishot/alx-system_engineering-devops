@@ -31,7 +31,7 @@ def get_todo_list_progress(employee_id):
  tasks({completed_tasks}/{total_tasks}):")
         for task in todo_data:
             if task['completed']:
-                print(f"\t{task['title']}")
+                print(f"     {task['title']}")
     except requests.exceptions.RequestException as e:
         print(f"Error fetched data: {e}")
 
