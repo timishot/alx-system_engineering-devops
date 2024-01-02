@@ -18,3 +18,16 @@
 "2","Antonette","False","totam quia non"
 "2","Antonette","False","doloremque quibusdam asperiores libero corrupti illum qui omnis"
 "2","Antonette","True","totam atque quo nesciunt"
+csv_writer = csv.writer(csvfile, quoting=csv.QUOTE_ALL)
+            
+            # Write header manually if needed
+            csv_writer.writerow(['USER_ID', 'USERNAME', 'TASK_COMPLETED_STATUS', 'TASK_TITLE'])
+
+            for task in todo_data:
+                csv_row = [
+                    employee_id,
+                    user_data['username'],
+                    str(task['completed']),
+                    task['title']
+                ]
+                csv_writer.writerow(csv_row)
