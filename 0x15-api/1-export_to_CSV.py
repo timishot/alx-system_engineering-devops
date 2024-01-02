@@ -6,7 +6,6 @@ import requests
 import sys
 
 
-
 def export_todo_list_to_csv(employee_id):
     """API URL for user information"""
     user_url = f"https://jsonplaceholder.typicode.com/users/{employee_id}"
