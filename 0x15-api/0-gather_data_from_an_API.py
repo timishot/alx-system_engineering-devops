@@ -10,8 +10,7 @@ def get_todo_list_progress(employee_id):
     user_url = f"https://jsonplaceholder.typicode.com/users/{employee_id}"
 
     """API URL for user's TODO list"""
-    todo_url = f"https://jsonplaceholder.\
-        typicode.com/todos?userId={employee_id}"
+    todo_url = f"https://jsonplaceholder.typicode.com/todos?userId={employee_id}"
 
     try:
         """Fetch user information"""
@@ -27,8 +26,7 @@ def get_todo_list_progress(employee_id):
         completed_tasks = sum(task['completed'] for task in todo_data)
 
         """ Display information"""
-        print(f"Employee {user_data['name']} is done with\
-               tasks ({completed_tasks}/{total_tasks}):")
+        print(f"Employee {user_data['name']} is done with tasks({completed_tasks}/{total_tasks}):")
         for task in todo_data:
             if task['completed']:
                 print(f"\t{task['title']}")
