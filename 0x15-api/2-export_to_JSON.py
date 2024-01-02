@@ -23,16 +23,18 @@ def export_todo_list_to_json(employee_id):
         todo_response = requests.get(todo_url)
         todo_data = todo_response.json()
 
-        json_data =  { str(employee_id): [{"task": task["title"], "completed": str(task['completed']), "username": user_data['username']} for task in todo_data]}
+        json_data = {str(employee_id): [{"task": task["title"], "completed":
+                     str(task['completed']), "username": user_data['username']}
+                     for task in todo_data]}
 
         json_file_path = f"{employee_id}.json"
         with open(json_file_path, "w") as jsonfile:
-            json.dump(json_data, jsonfile, indent=2)
-
+            json.dump(json_data, jsonfile)
         print(f'Data exported to {json_file_path} successfully.')
     except requests.exceptions.RequestException as e:
         print(f"Error fetched data: {e}")
         sys.exit(1)
+
 
 if __name__ == "__main__":
     if len(sys.argv) != 2:
