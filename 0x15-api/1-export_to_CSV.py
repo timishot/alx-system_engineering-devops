@@ -23,26 +23,19 @@ def export_todo_list_to_csv(employee_id):
         todo_data = todo_response.json()
 
         """Prepare data for CSV"""
-        csv_data = []
-        for task in todo_data:
-            csv_row = {
-                'USER_ID': employee_id,
-                'USERNAME': user_data['username'],
-                'TASK_COMPLETED_STATUS': str(task['completed']),
-                'TASK_TITLE': task['title']
-                }
-            csv_data.append(csv_row)
-
-        """Specify the csb file path"""
         csv_file_path = f"{employee_id}.csv"
 
         """Write data to csv file"""
         with open(csv_file_path, "w", newline='') as csvfile:
-            csv_writer = csv.DictWriter(csvfile,
-                                        fieldnames=csv_data[0].keys(),
-                                        quoting=csv.QUOTE_ALL)
-            csv_writer.writeheader()
-            csv_writer.writerows(csv_data)
+            csv_writer = csv.writer(csvfile, quoting=csv.QUOTE_ALL)
+            for task in todo_data:
+                csv_row = [
+                    employee_id,
+                    user_data['username'],
+                    str(task['completed']),
+                    task['title']
+                ]
+                csv_writer.writerow(csv_row)
 
         print(f'Data exported to {csv_file_path} successfully.')
     except requests.exceptions.RequestException as e:
