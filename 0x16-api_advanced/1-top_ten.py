@@ -1,24 +1,16 @@
 #!/usr/bin/python3
-"""unction that queries the Reddit API and returns the number of subscribers"""
+"""Function to query subscribers on a given Reddit subreddit."""
 import requests
 
 
-def top_ten(subreddit):
-    url = f'https://www.reddit.com/r/{subreddit}/hot.json'
-    headers = {'User-Agent': 'Custom User Agent'}
-    params = {"limit": 10}
-
-    response = requests.get(url, headers=headers, params=params)
-
-    """Check if request is successful"""
-    if response.status_code == 200:
-        try:
-            data = response.json()
-            posts = data['data']['children']
-            for post in posts:
-                title = post['data']['title']
-                print(title)
-        except KeyError:
-            return None
-    else:
-        return None
+def number_of_subscribers(subreddit):
+    """Return the total number of subscribers on a given subreddit."""
+    url = "https://www.reddit.com/r/{}/about.json".format(subreddit)
+    headers = {
+        "User-Agent": "linux:0x16.api.advanced:v1.0.0 (by /u/bdov_)"
+    }
+    response = requests.get(url, headers=headers, allow_redirects=False)
+    if response.status_code == 404:
+        return 0
+    results = response.json().get("data")
+    return results.get("subscribers")
