@@ -1,4 +1,4 @@
-#!/usr/bin/env bash
+tmux new-session -d 'gunicorn --bind 0.0.0.0:5001 web_flask.6-number_odd_or_even:app'#!/usr/bin/env bash
 
 sudo apt-get update
 
